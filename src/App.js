@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Login from './features/login/Login';
 import List from './features/list/List';
+import Details from './features/details/Details';
 import 'antd/dist/antd.css';
 
 function App() {
@@ -17,8 +18,12 @@ function App() {
           <Login />
         </Route>
         
-        <Route path="/list">
+        <Route exact path="/list">
           <List />
+        </Route>
+
+        <Route path="/list/:id" render={({ match }) => <Details id={match.params.id} />}>
+          
         </Route>
 
         <Route path="/logout" render={() => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchContacts, updateContacts, deleteContact, selectContacts } from './listSlice';
 
@@ -13,7 +13,8 @@ export default () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const dispatch = useDispatch();
     const contacts = useSelector(selectContacts);
-    
+    const history = useHistory();
+
     const rowSelection = {
         selectedRowKeys,
         onChange: (selectedRowKeys) => {
@@ -23,23 +24,23 @@ export default () => {
 
     const makeFavorite = (id, isFavorite) => {
         dispatch(updateContacts(id, isFavorite));
-    }
+    };
     
     const deleteUser = (id) => {
         dispatch(deleteContact(id));
-    }
+    };
     
     const makeFavoriteSelected = () => {
         selectedRowKeys.forEach(id => {
             dispatch(updateContacts(id, true));
         });
-    }
+    };
 
     const deleteUserSelected = () => {
         selectedRowKeys.forEach(id => {
             dispatch(deleteContact(id));
         });
-    }
+    };
     
     const columns = [
         {
@@ -83,6 +84,13 @@ export default () => {
     return (
         <React.Fragment>
             <Table
+                onRow={record => {
+                    return {
+                        onDoubleClick: (e) => {
+                            history.push(`/list/${record.id}`);
+                        }
+                    }
+                }}
                 rowSelection={rowSelection}
                 dataSource={Object.values(contacts.data)}
                 columns={columns}

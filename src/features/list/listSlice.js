@@ -38,7 +38,7 @@ const { fetchContactsSuccess, updateContactsSuccess, deleteContactsSuccess } = l
 export const fetchContacts = (page = 1, per_page = 20) => dispatch => {
     axios.get(`https://reqres.in/api/users?page=${page}&per_page=${per_page}`)
         .then(({data}) => {
-            dispatch(fetchContactsSuccess(data))
+            dispatch(fetchContactsSuccess(data));
         })
 }
 
